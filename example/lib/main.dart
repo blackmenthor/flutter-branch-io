@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  setUp();
+  runApp(MyApp());
+}
+
+Future<void> setUp() async {
+  FlutterBranchIoPlugin.listenToOnStartStream().listen((String data) {
+    print("ONSTART");
+  });
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -12,31 +20,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  String _data = '-';
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await FlutterBranchIoPlugin.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
+    FlutterBranchIoPlugin.setupBranchIO();
+    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
+      print("DEEPLINK $string");
+      setState(() {
+        this._data = string;
+      });
+    });
+    FlutterBranchIoPlugin.listenToOnStartStream().listen((string) {
+      print("ONSTART");
+      FlutterBranchIoPlugin.setupBranchIO();
     });
   }
 
@@ -47,9 +45,24 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+        body: Builder(builder: (context) {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                      "LATEST DATA BRANCH $_data"
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

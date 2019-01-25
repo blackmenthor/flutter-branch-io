@@ -41,4 +41,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "io.branch.sdk.android:library:3.+"
+    implementation 'com.google.firebase:firebase-appindexing:17.1.0'
 }

@@ -13,12 +13,12 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="com.anggach.flutterbranchioplugin.src.FlutterBranchIOApp"
         android:label="flutter_branch_io_plugin_example"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
             android:hardwareAccelerated="true"
@@ -34,6 +34,34 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <!-- Branch URI scheme -->
+            <intent-filter>
+                <data android:scheme="YOURSCHEME" android:host="open"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+            <!-- Branch App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="YOURHOST.test-app.link" />
+            </intent-filter>
         </activity>
+
+        <!-- Branch init -->
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="YOURLIVEKEY" />
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="YOURTESTKEY" />
+        <meta-data android:name="io.branch.sdk.TestMode" android:value="true" /> <!-- Set to true to use Branch_Test_Key -->
+
+        <!-- Branch install referrer tracking -->
+        <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
