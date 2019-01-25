@@ -6,3 +6,5 @@
 pubspec.lock
 
 build/
+
+example/android/app/src/main/AndroidManifest.xml
