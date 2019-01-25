@@ -3,16 +3,7 @@ import 'dart:async';
 
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 
-void main() {
-  setUp();
-  runApp(MyApp());
-}
-
-Future<void> setUp() async {
-  FlutterBranchIoPlugin.listenToOnStartStream().listen((String data) {
-    print("ONSTART");
-  });
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
