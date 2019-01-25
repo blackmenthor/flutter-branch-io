@@ -27,6 +27,7 @@
 .pub-cache/
 .pub/
 build/
+example/android/app/src/main/AndroidManifest.xml
 
 # Android related
 **/android/**/gradle-wrapper.jar
