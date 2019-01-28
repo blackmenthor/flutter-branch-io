@@ -15,7 +15,7 @@ Implemented function:
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
 - Change these setups in your `AndroidManifest.xml`
 
-    - Change your application class to `android:name="com.anggach.flutterbranchioplugin.src.FlutterBranchIOApp"`
+    - Change your application class to `android:name="com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity"`
     - Open your MainActivity and change the class to extend FlutterBranchIOActivity
     - Add this inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
 
