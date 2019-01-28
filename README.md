@@ -5,6 +5,11 @@ Currently only supported Android, still need to work on iOS's swift side.
 
 Implemented function:
 - Initialization and get Deep Link data to a subscribe-able stream on dart.
+- Create BUO and MetaData model
+- Generate new deeplink and get the link
+- List BUO on google search
+- Track content & evnt
+- Track user by id
 
 # HOW TO USE
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
