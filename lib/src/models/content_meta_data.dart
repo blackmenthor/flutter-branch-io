@@ -9,8 +9,27 @@ enum FlutterBranchIOCurrencyType {
 }
 
 enum FlutterBranchIOProductCategory {
-  // TODO: COMPLETE
-  HOME_AND_GARDEN
+  ANIMALS_AND_PET_SUPPLIES,
+  APPAREL_AND_ACCESSORIES,
+  ARTS_AND_ENTERTAINMENT,
+  BABY_AND_TODDLER,
+  BUSINESS_AND_INDUSTRIAL,
+  CAMERAS_AND_OPTICS,
+  ELECTRONICS,
+  FOOD_BEVERAGES_AND_TOBACCO,
+  FURNITURE,
+  HARDWARE,
+  HEALTH_AND_BEAUTY,
+  HOME_AND_GARDEN,
+  LUGGAGE_AND_BAGS,
+  MATURE,
+  MEDIA,
+  OFFICE_SUPPLIES,
+  RELIGIOUS_AND_CEREMONIAL,
+  SOFTWARE,
+  SPORTING_GOODS,
+  TOYS_AND_GAMES,
+  VEHICLES_AND_PARTS,
 }
 
 const String QUANTITY_JSON = "\$quantity";
@@ -154,22 +173,100 @@ class FlutterContentMetaData {
   }
 
   FlutterBranchIOProductCategory getProductCategory(String productCategory) {
-    // TODO: COMPLETE
     if (productCategory == null) return FlutterBranchIOProductCategory.HOME_AND_GARDEN;
     switch (productCategory) {
+      case "Animals & Pet Supplies":
+        return FlutterBranchIOProductCategory.ANIMALS_AND_PET_SUPPLIES;
+      case "Apparel & Accessories":
+        return FlutterBranchIOProductCategory.APPAREL_AND_ACCESSORIES;
+      case "Arts & Entertainment":
+        return FlutterBranchIOProductCategory.ARTS_AND_ENTERTAINMENT;
+      case "Baby & Toddler":
+        return FlutterBranchIOProductCategory.BABY_AND_TODDLER;
+      case "Business & Industrial":
+        return FlutterBranchIOProductCategory.BUSINESS_AND_INDUSTRIAL;
+      case "Cameras & Optics":
+        return FlutterBranchIOProductCategory.CAMERAS_AND_OPTICS;
+      case "Electronics":
+        return FlutterBranchIOProductCategory.ELECTRONICS;
+      case "Food, Beverages & Tobacco":
+        return FlutterBranchIOProductCategory.FOOD_BEVERAGES_AND_TOBACCO;
+      case "Furniture":
+        return FlutterBranchIOProductCategory.FURNITURE;
+      case "Hardware":
+        return FlutterBranchIOProductCategory.HARDWARE;
+      case "Health & Beauty":
+        return FlutterBranchIOProductCategory.HEALTH_AND_BEAUTY;
       case "Home & Garden":
         return FlutterBranchIOProductCategory.HOME_AND_GARDEN;
+      case "Luggage & Bags":
+        return FlutterBranchIOProductCategory.LUGGAGE_AND_BAGS;
+      case "Mature":
+        return FlutterBranchIOProductCategory.MATURE;
+      case "Media":
+        return FlutterBranchIOProductCategory.MEDIA;
+      case "Office Supplies":
+        return FlutterBranchIOProductCategory.OFFICE_SUPPLIES;
+      case "Religious & Ceremonial":
+        return FlutterBranchIOProductCategory.RELIGIOUS_AND_CEREMONIAL;
+      case "Software":
+        return FlutterBranchIOProductCategory.SOFTWARE;
+      case "Sporting Goods":
+        return FlutterBranchIOProductCategory.SPORTING_GOODS;
+      case "Toys & Games":
+        return FlutterBranchIOProductCategory.TOYS_AND_GAMES;
+      case "Vehicles & Parts":
+        return FlutterBranchIOProductCategory.VEHICLES_AND_PARTS;
       default:
         return FlutterBranchIOProductCategory.HOME_AND_GARDEN;
     }
   }
 
    String getProductCategoryString(FlutterBranchIOProductCategory productCategory) {
-    // TODO: COMPLETE
     if (productCategory == null) return "Home & Garden";
     switch (productCategory) {
+      case FlutterBranchIOProductCategory.ANIMALS_AND_PET_SUPPLIES:
+        return "Animals & Pet Supplies";
+      case FlutterBranchIOProductCategory.APPAREL_AND_ACCESSORIES:
+        return "Apparel & Accessories";
+      case FlutterBranchIOProductCategory.ARTS_AND_ENTERTAINMENT:
+        return "Arts & Entertainment";
+      case FlutterBranchIOProductCategory.BABY_AND_TODDLER:
+        return "Baby & Toddler";
+      case FlutterBranchIOProductCategory.BUSINESS_AND_INDUSTRIAL:
+        return "Business & Industrial";
+      case FlutterBranchIOProductCategory.CAMERAS_AND_OPTICS:
+        return "Cameras & Optics";
+      case FlutterBranchIOProductCategory.ELECTRONICS:
+        return "Electronics";
+      case FlutterBranchIOProductCategory.FOOD_BEVERAGES_AND_TOBACCO:
+        return "Food, Beverages & Tobacco";
+      case FlutterBranchIOProductCategory.FURNITURE:
+        return "Furniture";
+      case FlutterBranchIOProductCategory.HARDWARE:
+        return "Hardware";
+      case FlutterBranchIOProductCategory.HEALTH_AND_BEAUTY:
+        return "Health & Beauty";
       case FlutterBranchIOProductCategory.HOME_AND_GARDEN:
         return "Home & Garden";
+      case FlutterBranchIOProductCategory.LUGGAGE_AND_BAGS:
+        return "Luggage & Bags";
+      case FlutterBranchIOProductCategory.MATURE:
+        return "Mature";
+      case FlutterBranchIOProductCategory.MEDIA:
+        return "Media";
+      case FlutterBranchIOProductCategory.OFFICE_SUPPLIES:
+        return "Office Supplies";
+      case FlutterBranchIOProductCategory.RELIGIOUS_AND_CEREMONIAL:
+        return "Religious & Ceremonial";
+      case FlutterBranchIOProductCategory.SOFTWARE:
+        return "Software";
+      case FlutterBranchIOProductCategory.SPORTING_GOODS:
+        return "Sporting Goods";
+      case FlutterBranchIOProductCategory.TOYS_AND_GAMES:
+        return "Toys & Games";
+      case FlutterBranchIOProductCategory.VEHICLES_AND_PARTS:
+        return "Vehicles & Parts";
       default:
         return "Home & Garden";
     }

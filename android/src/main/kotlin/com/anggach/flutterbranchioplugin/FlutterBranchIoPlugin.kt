@@ -8,7 +8,6 @@ import io.branch.indexing.BranchUniversalObject
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
 import io.branch.referral.BranchUtil
-import io.branch.referral.util.BRANCH_STANDARD_EVENT
 import io.branch.referral.util.BranchEvent
 import io.branch.referral.util.LinkProperties
 import io.flutter.plugin.common.EventChannel
@@ -17,7 +16,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import org.jetbrains.annotations.Nullable
 import org.json.JSONObject
 
 const val DEBUG_NAME = "FlutterBranchIo"
