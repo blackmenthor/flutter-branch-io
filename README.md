@@ -74,6 +74,87 @@ Implemented function:
         });
     ```
 
+# Functions
+- To generate new deep link from flutter, you can use this
+
+First, you need to subscribe to the generated link stream, which will produce the generated link after you created a link from a branch universal object
+```
+
+    FlutterBranchIoPlugin.listenToGeneratedLinkStream().listen((link) {
+          print("GET LINK IN FLUTTER");
+          print(link);
+          setState(() {
+            this.generatedLink = link;
+          });
+        });
+```
+
+Then, you can start generate new links based on any Branch Universal Object you pass, and you can also add some Link Properties inside
+```
+
+    FlutterBranchIoPlugin.generateLink(
+          FlutterBranchUniversalObject()
+              .setCanonicalIdentifier("content/12345")
+              .setTitle("My Content Title")
+              .setContentDescription("My Content Description")
+              .setContentImageUrl("https://lorempixel.com/400/400")
+              .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+              .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
+          lpChannel: "facebook",
+          lpFeature: "sharing",
+          lpCampaign: "content 123 launch",
+          lpStage: "new user",
+          lpControlParams: {
+            "url": "http://www.google.com"
+          }
+        );
+```
+
+- Track Content
+to track content, you can create a new branch universal object and some event identifier (String)
+```
+    FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
+            .setCanonicalIdentifier("content/12345")
+            .setTitle("My Content Title")
+            .setContentDescription("My Content Description")
+            .setContentImageUrl("https://lorempixel.com/400/400")
+            .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+            .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC), FlutterBranchStandardEvent.VIEW_ITEM);
+```
+
+- Set User ID
+to set user id for current session, you can use
+```
+    FlutterBranchIoPlugin.setUserIdentity(USER_ID)
+```
+
+- Clear User ID
+to clear user id for current session, you can use
+```
+    FlutterBranchIoPlugin.clearUserIdentity()
+```
+
+- List Universal Object on Google Search
+to list an universal object on google search, you can use
+```
+    FlutterBranchIoPlugin.listOnGoogleSearch(
+              FlutterBranchUniversalObject()
+                  .setCanonicalIdentifier("content/12345")
+                  .setTitle("My Content Title")
+                  .setContentDescription("My Content Description")
+                  .setContentImageUrl("https://lorempixel.com/400/400")
+                  .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+                  .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
+              lpChannel: "facebook",
+              lpFeature: "sharing",
+              lpCampaign: "content 123 launch",
+              lpStage: "new user",
+              lpControlParams: {
+                "url": "http://www.google.com"
+              }
+            );
+```
+
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)
 - Abdul Ghapur (gofur@oval.id)
