@@ -17,14 +17,6 @@ class FlutterBranchIoPlugin {
     _messageChannel.invokeMethod('initBranchIO');
   }
 
-  static Future<String> getBUOJSON() async {
-    try {
-      return await _messageChannel.invokeMethod('getBUOJSON');
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
   static Stream<String> listenToDeepLinkStream() {
     if ( mainStream == null ) mainStream = _eventChannel.receiveBroadcastStream().cast<String>();
     return mainStream;

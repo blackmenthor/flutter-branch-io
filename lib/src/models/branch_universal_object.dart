@@ -50,7 +50,6 @@ class FlutterBranchUniversalObject {
     _description = "";
     _indexMode = BUO_CONTENT_INDEX_MODE.PUBLIC;
     _localIndexMode = BUO_CONTENT_INDEX_MODE.PUBLIC;
-    _expirationInMilliSec = 0;
     _creationTimeStamp = DateTime.now().millisecondsSinceEpoch;
   }
 
@@ -182,11 +181,11 @@ class FlutterBranchUniversalObject {
 
   String toJson() {
     Map<String, dynamic> ret = <String, dynamic>{};
-    if (this.getTitle() != null) ret[TITLE_JSON] = this.getTitle();
-    if (this.getCanonicalIdentifier() != null) ret[CANONICAL_IDENTIFIER_JSON] = this.getCanonicalIdentifier();
-    if (this.getCanonicalUrl() != null) ret[CANONICAL_URL_JSON] = this.getCanonicalUrl();
+    if (this.getTitle() != null && this.getTitle().isNotEmpty) ret[TITLE_JSON] = this.getTitle();
+    if (this.getCanonicalIdentifier() != null && this.getCanonicalIdentifier().isNotEmpty) ret[CANONICAL_IDENTIFIER_JSON] = this.getCanonicalIdentifier();
+    if (this.getCanonicalUrl() != null && this.getCanonicalUrl().isNotEmpty) ret[CANONICAL_URL_JSON] = this.getCanonicalUrl();
     if (getKeywords().isNotEmpty) ret[KEYWORDS_JSON] = this.getKeywords();
-    if (getDescription() != null) ret[DESCRIPTION_JSON] = this.getDescription();
+    if (getDescription() != null && _description.isNotEmpty) ret[DESCRIPTION_JSON] = this.getDescription();
     if (getImageUrl() != null) ret[IMAGE_URL_JSON] = this.getImageUrl();
     if (getExpirationTime() != null) ret[EXPIRATION_DATE_JSON] = this.getExpirationTime();
     ret[PUBLICLY_INDEXABLE_JSON] = this.isPublicallyIndexable();

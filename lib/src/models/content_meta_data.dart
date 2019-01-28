@@ -70,7 +70,9 @@ class FlutterContentMetaData {
   List<dynamic> $imageCaptions;
   Map<String, dynamic> $customMetadata;
 
-  FlutterContentMetaData();
+  FlutterContentMetaData() {
+    this.$customMetadata = {};
+  }
 
   FlutterContentMetaData.fromJson(String json) {
     try {
