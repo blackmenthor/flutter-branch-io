@@ -1,8 +1,8 @@
 name: flutter_branch_io_plugin
 description: A new Flutter plugin to port Branch IO SDK.
 version: 0.0.1
-author:
-homepage:
+author: Angga Dwi Arifandi <angga.dwi@oval.id>
+homepage: https://github.com/blackmenthor/flutter-branch-io
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
