@@ -4,9 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import io.branch.indexing.BranchUniversalObject
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
 import io.branch.referral.BranchUtil
+import io.branch.referral.util.ContentMetadata
+import io.branch.referral.util.CurrencyType
+import io.branch.referral.util.ProductCategory
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodCall
@@ -15,6 +19,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import org.json.JSONObject
+import java.util.*
 
 const val DEBUG_NAME = "FlutterBranchIo"
 const val INTENT_EXTRA_DATA = "DATA"
@@ -108,10 +113,51 @@ class FlutterBranchIoPlugin(var registrar: Registrar) : MethodCallHandler, Event
         receiver = null
     }
 
+    fun getBUOJSON(): String {
+        try {
+            val calendar = Calendar.getInstance()
+            val today = calendar.time
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+            val tomorrow = calendar.time
+            val buo: BranchUniversalObject =
+                    BranchUniversalObject()
+//                            .setCanonicalIdentifier("DUMMY CANONICAL IDENTIFIER")
+//                            .setCanonicalUrl("DUMMY CANONICAL URL")
+//                            .setTitle("DUMMY TITLE")
+//                            .setContentDescription("DUMMY CONTENT DESCRIPTION")
+//                            .setContentImageUrl("DUMMY IMAGE URL")
+                            .setContentMetadata(
+                                    ContentMetadata()
+                                            .setQuantity(1.0)
+                                            .setPrice(1.0, CurrencyType.IDR)
+                                            .setSku("DUMMY SKU")
+                                            .setProductName("DUMMY PRODUCT NAME")
+                                            .setProductBrand("DUMMY PRODUCT BRAND")
+                                            .setProductCategory(ProductCategory.HOME_AND_GARDEN)
+                                            .setProductCondition(ContentMetadata.CONDITION.EXCELLENT)
+                                            .setProductVariant("DUMMY PRODUCT VARIANT")
+                                            .setAddress("STREET", "CITY", "REGION", "COUNTRY", "POSTALCODE")
+                                            .setLocation(100.1, 100.1)
+                                            .addImageCaptions("CAPTION1", "CAPTION2", "CAPTION3")
+//                                            .addCustomMetadata("DUMMYKEY", "DUMMYVALUE")
+                            )
+//                            .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PRIVATE)
+//                            .addKeyWords(arrayListOf("DUMMY KEYWORD 1", "DUMMY KEYWORD 2", "DUMMY KEYWORD 3"))
+//                            .setContentExpiration(tomorrow)
+//                            .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PRIVATE)
+            return buo.convertToJson().toString()
+        } catch (e: Exception) {
+            return ""
+        }
+    }
+
     override fun onMethodCall(call: MethodCall, result: Result) {
         if (call.method == "initBranchIO") {
             result.success("INITIALIZING BRANCH IO")
             setUpBranchIo()
+        } else if (call.method == "getBUOJSON") {
+            val json = getBUOJSON()
+            result.success(json)
         } else {
             result.notImplemented()
         }

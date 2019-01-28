@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
+import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
         this._data = string;
       });
     });
-    FlutterBranchIoPlugin.listenToOnStartStream().listen((string) {
+    FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
       print("ONSTART");
       FlutterBranchIoPlugin.setupBranchIO();
     });
