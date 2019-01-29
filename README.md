@@ -15,8 +15,8 @@ Implemented function:
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
 - Change these setups in your `AndroidManifest.xml`
 
-    - Change your application class to `android:name="com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity"`
-    - Open your MainActivity and change the class to extend FlutterBranchIOActivity
+    - Open your MainActivity and import `com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity`
+    - Change the MainActivity class to extend FlutterBranchIOActivity
     - Add this inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
 
         ```
@@ -68,7 +68,7 @@ Implemented function:
             this._data = string;
           });
         });
-        FlutterBranchIoPlugin.listenToOnStartStream().listen((string) {
+        FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
           print("ONSTART");
           FlutterBranchIoPlugin.setupBranchIO();
         });
