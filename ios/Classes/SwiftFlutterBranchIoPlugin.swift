@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import Branch
 
 public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
