@@ -155,6 +155,12 @@ to list an universal object on google search, you can use
             );
 ```
 
+# Version
+- 0.0.1
+Initial upload
+- 0.0.1+2
+Add Swift dependencies and version
+
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)
 - Abdul Ghapur (gofur@oval.id)
