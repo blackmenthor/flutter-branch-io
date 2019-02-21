@@ -160,6 +160,8 @@ to list an universal object on google search, you can use
 Initial upload
 - 0.0.1+2
 Add Swift dependencies and version
+- 0.0.1+3
+Fix Branch data not received after user install
 
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)
