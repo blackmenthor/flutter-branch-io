@@ -11,13 +11,12 @@ import Branch
         didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
         ) -> Bool {
         GeneratedPluginRegistrant.register(with: self)
-        
         guard let controller = window?.rootViewController as? FlutterViewController else {
             fatalError("rootViewController cannot be casted to FlutterViewController")
         }
         
         let eventChannel = FlutterEventChannel(name: "flutter_branch_io/event", binaryMessenger: controller)
-        
+
         eventChannel.setStreamHandler(self)
         
         // if you are using the TEST key

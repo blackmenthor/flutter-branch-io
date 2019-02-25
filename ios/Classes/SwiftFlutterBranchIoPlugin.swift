@@ -54,32 +54,38 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
     
   private func generateLink(call: FlutterMethodCall, result: @escaping FlutterResult) {
     let args = call.arguments as? [String: Any?]
-    let buoJson = args?["buoJson"] as! String?
-    let lpChannel = args?["lp_channel"] as! String?
-    let lpFeature = args?["lp_feature"] as! String?
-    let lpCampaign = args?["lp_campaign"] as! String?
-    let lpStage = args?["lp_stage"] as! String?
-    let lpControlParams = args?["lp_control_params"] as! [String: Any?]?
+    let buoJson = args?["buoJson"] as? String?
+    let lpChannel = args?["lp_channel"] as? String?
+    let lpFeature = args?["lp_feature"] as? String?
+    let lpCampaign = args?["lp_campaign"] as? String?
+    let lpStage = args?["lp_stage"] as? String?
+    let lpParams = args?["lp_control_params"] as? [String: Any?]?
     
-    let buo: BranchUniversalObject? = convertStringToBUO(text: buoJson!)
+    let buo: BranchUniversalObject? = convertStringToBUO(text: buoJson!!)
     
     let lp: BranchLinkProperties = BranchLinkProperties()
     if (lpChannel != nil) {
-        lp.channel = lpChannel
+        lp.channel = lpChannel as! String
     }
     if (lpFeature != nil) {
-        lp.feature = lpFeature
+        lp.feature = lpFeature as! String
     }
     if (lpCampaign != nil) {
-        lp.campaign = lpCampaign
+        lp.campaign = lpCampaign as! String
     }
     if (lpStage != nil) {
-        lp.stage = lpStage
+        lp.stage = lpStage as! String
+    }
+    if (lpParams != nil) {
+        for param in lpParams!! {
+            lp.addControlParam(param.key, withValue: param.value as? String)
+        }
     }
     
     buo?.getShortUrl(with: lp) { (url, error) in
         self.sendUrlToSink(url: url!)
     }
+    result("Success generating Link!")
     
   }
     

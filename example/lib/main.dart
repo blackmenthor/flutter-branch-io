@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FlutterBranchIoPlugin.setupBranchIO();
+    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
       print("DEEPLINK $string");
       setState(() {
