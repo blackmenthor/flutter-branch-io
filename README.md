@@ -162,6 +162,8 @@ Initial upload
 Add Swift dependencies and version
 - 0.0.1+3
 Fix Branch data not received after user install
+- 0.0.1+4
+Fix method not implemented errors on iOS
 
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)
