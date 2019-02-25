@@ -1,7 +1,7 @@
 # flutter-branch-io
 Flutter plugin implemented Branch IO's SDK to Flutter.
 
-Currently only supported Android, still need to work on iOS's swift side.
+Supports both Android and iOS.
 
 Implemented function:
 - Initialization and get Deep Link data to a subscribe-able stream on dart.
@@ -10,6 +10,10 @@ Implemented function:
 - List BUO on google search
 - Track content & evnt
 - Track user by id
+
+## iOS
+- For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction (https://github.com/blackmenthor/flutter-branch-io-ios-sample)
+- After your AppDelegate has been tweaked, you could use some of the functions below
 
 # HOW TO USE
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
@@ -75,8 +79,7 @@ Implemented function:
     ```
 
 # Functions
-- To generate new deep link from flutter, you can use this
-
+- To generate new deep link from flutter, you can use this (Support both Android & iOS)
 First, you need to subscribe to the generated link stream, which will produce the generated link after you created a link from a branch universal object
 ```
 
@@ -89,7 +92,7 @@ First, you need to subscribe to the generated link stream, which will produce th
         });
 ```
 
-Then, you can start generate new links based on any Branch Universal Object you pass, and you can also add some Link Properties inside
+Then, you can start generate new links based on any Branch Universal Object you pass, and you can also add some Link Properties inside (support Android & iOS)
 ```
 
     FlutterBranchIoPlugin.generateLink(
@@ -110,7 +113,7 @@ Then, you can start generate new links based on any Branch Universal Object you 
         );
 ```
 
-- Track Content
+- Track Content (Support Both Android & iOS)
 to track content, you can create a new branch universal object and some event identifier (String)
 ```
     FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
@@ -122,19 +125,19 @@ to track content, you can create a new branch universal object and some event id
             .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC), FlutterBranchStandardEvent.VIEW_ITEM);
 ```
 
-- Set User ID
+- Set User ID (support both Android & iOS)
 to set user id for current session, you can use
 ```
     FlutterBranchIoPlugin.setUserIdentity(USER_ID)
 ```
 
-- Clear User ID
+- Clear User ID (support both Android & iOS)
 to clear user id for current session, you can use
 ```
     FlutterBranchIoPlugin.clearUserIdentity()
 ```
 
-- List Universal Object on Google Search
+- List Universal Object on Google Search (support Android only)
 to list an universal object on google search, you can use
 ```
     FlutterBranchIoPlugin.listOnGoogleSearch(
@@ -164,6 +167,8 @@ Add Swift dependencies and version
 Fix Branch data not received after user install
 - 0.0.1+4
 Fix method not implemented errors on iOS
+- 0.0.1+5
+Implement iOS swift side
 
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)

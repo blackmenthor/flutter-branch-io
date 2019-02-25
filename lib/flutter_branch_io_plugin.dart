@@ -30,7 +30,6 @@ class FlutterBranchIoPlugin {
       Map<String, dynamic> lpControlParams,
     }
   ) async {
-    if (Platform.isAndroid) {
       Map<String, dynamic> _params = {};
       String buoJson = buo.toJson();
       _params['buoJson'] = buoJson;
@@ -42,7 +41,6 @@ class FlutterBranchIoPlugin {
         _params['lp_control_params'] = lpControlParams;
 
       _messageChannel.invokeMethod("generateLink", _params);
-    }
   }
 
   static void listOnGoogleSearch(
@@ -55,7 +53,6 @@ class FlutterBranchIoPlugin {
         Map<String, dynamic> lpControlParams,
       }
     ) async {
-    if (Platform.isAndroid) {
       Map<String, dynamic> _params = {};
       String buoJson = buo.toJson();
       _params['buoJson'] = buoJson;
@@ -67,47 +64,36 @@ class FlutterBranchIoPlugin {
         _params['lp_control_params'] = lpControlParams;
 
       _messageChannel.invokeMethod("listOnGoogleSearch", _params);
-    }
   }
 
   static void trackContent(
       FlutterBranchUniversalObject buo,
       String eventType
   ) {
-    if (Platform.isAndroid) {
       Map<String, dynamic> _params = {};
       String buoJson = buo.toJson();
       _params['buoJson'] = buoJson;
       _params['eventType'] = eventType;
 
       _messageChannel.invokeMethod("trackContent", _params);
-    }
   }
 
   static void setUserIdentity( String userId ) {
-    if (Platform.isAndroid) {
       Map<String, dynamic> _params = {};
       _params["userId"] = userId;
       _messageChannel.invokeMethod("setUserIdentity", _params);
-    }
   }
 
   static void clearUserIdentity( String userId ) {
-    if (Platform.isAndroid) _messageChannel.invokeMethod("clearUserIdentity");
+    _messageChannel.invokeMethod("clearUserIdentity");
   }
 
   static Future<String> getLatestParam() async {
-    if (Platform.isAndroid) {
       return await _messageChannel.invokeMethod('getLatestParam');
-    }
-    return "";
   }
 
   static Future<String> getFirstParam() async {
-    if (Platform.isAndroid) {
       return await _messageChannel.invokeMethod('getFirstParam');
-    }
-    return "";
   }
 
   static Stream<String> listenToDeepLinkStream() {
@@ -116,7 +102,6 @@ class FlutterBranchIoPlugin {
   }
 
   static Stream<String> listenToGeneratedLinkStream() {
-    if (Platform.isIOS) return Stream.empty();
     if ( generatedLinkStream == null ) generatedLinkStream = _generatedLinkChannel.receiveBroadcastStream().cast<String>();
     return generatedLinkStream;
   }
