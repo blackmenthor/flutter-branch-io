@@ -5,6 +5,7 @@
 .packages
 .pub/
 pubspec.lock
+*.iml
 
 build/
 
