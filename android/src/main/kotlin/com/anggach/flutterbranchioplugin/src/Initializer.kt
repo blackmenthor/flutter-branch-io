@@ -12,14 +12,14 @@ import org.json.JSONObject
 
 
 fun init(registrar: PluginRegistry.Registrar) {
-    if (!BranchUtil.isTestModeEnabled(registrar.activity().applicationContext)) {
+    if (!BranchUtil.isTestModeEnabled()) {
         Branch.getInstance(registrar.activity().applicationContext)
     } else {
         Branch.getTestInstance(registrar.activity().applicationContext)
     }
 
     // Branch logging for debugging
-    Branch.enableLogging()
+    Branch.enableDebugMode()
 
     // Branch object initialization
     Branch.getAutoInstance(registrar.activity().applicationContext)
