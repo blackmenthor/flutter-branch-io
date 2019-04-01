@@ -11,16 +11,29 @@ Implemented function:
 - Track content & evnt
 - Track user by id
 
-## iOS
+## HOW TO USE iOS
 - For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction (https://github.com/blackmenthor/flutter-branch-io-ios-sample)
 - After your AppDelegate has been tweaked, you could use some of the functions below
-
-# HOW TO USE
+- Last, you need to call this code inside your application's initState
+    ```
+        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+        FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
+          print("DEEPLINK $string");
+          // PROCESS DEEPLINK HERE
+        });
+        if (Platform.isAndroid) {
+          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+            print("ONSTART");
+            FlutterBranchIoPlugin.setupBranchIO();
+          });
+        }
+    ```
+# HOW TO USE ANDROID
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
 - Change these setups in your `AndroidManifest.xml`
 
     - Open your MainActivity and import `com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity`
-    - Change the MainActivity class to extend FlutterBranchIOActivity
+    - Change the MainActivity class to extend FlutterAndroidLifecycleActivity
     - Add this inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
 
         ```
@@ -65,17 +78,17 @@ Implemented function:
 
     - Last, you need to call this code inside your application's initState
     ```
-        FlutterBranchIoPlugin.setupBranchIO();
+        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
           print("DEEPLINK $string");
-          setState(() {
-            this._data = string;
+          // PROCESS DEEPLINK HERE
+        });
+        if (Platform.isAndroid) {
+          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+            print("ONSTART");
+            FlutterBranchIoPlugin.setupBranchIO();
           });
-        });
-        FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-          print("ONSTART");
-          FlutterBranchIoPlugin.setupBranchIO();
-        });
+        }
     ```
 
 # Functions
@@ -173,6 +186,8 @@ to list an universal object on google search, you can use
     - add iml to gitignore & adjust to Branch's new SDK functions including:
     remove arguments from isTestModeEnabled
     change enableLogging to enableDebugMode because deprecated
+- 0.0.2+1
+    - Change README's obsolete instructions for Android
 
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)
