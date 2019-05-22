@@ -15,3 +15,6 @@
 
 ## 0.0.2+1
     - Change README's obsolete instructions for Android
+    
+## 0.0.2+2
+    - Upgrade Kotlin version to 1.3.21
