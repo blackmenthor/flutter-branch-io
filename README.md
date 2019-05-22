@@ -188,6 +188,8 @@ to list an universal object on google search, you can use
     change enableLogging to enableDebugMode because deprecated
 - 0.0.2+1
     - Change README's obsolete instructions for Android
+- 0.0.2+2
+    - Upgrade Kotlin version to 1.3.21
 
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)
