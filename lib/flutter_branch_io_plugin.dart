@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
@@ -16,7 +17,7 @@ class FlutterBranchIoPlugin {
   static Stream<String> generatedLinkStream;
 
   static void setupBranchIO() {
-    _messageChannel.invokeMethod('initBranchIO');
+    if (Platform.isAndroid) _messageChannel.invokeMethod('initBranchIO');
   }
 
   static void generateLink(
@@ -29,16 +30,17 @@ class FlutterBranchIoPlugin {
       Map<String, dynamic> lpControlParams,
     }
   ) async {
-    Map<String, dynamic> _params = {};
-    String buoJson = buo.toJson();
-    _params['buoJson'] = buoJson;
-    if (lpChannel != null) _params['lp_channel'] = lpChannel;
-    if (lpFeature != null) _params['lp_feature'] = lpFeature;
-    if (lpCampaign != null) _params['lp_campaign'] = lpCampaign;
-    if (lpStage != null) _params['lp_stage'] = lpStage;
-    if (lpControlParams != null) _params['lp_control_params'] = lpControlParams;
+      Map<String, dynamic> _params = {};
+      String buoJson = buo.toJson();
+      _params['buoJson'] = buoJson;
+      if (lpChannel != null) _params['lp_channel'] = lpChannel;
+      if (lpFeature != null) _params['lp_feature'] = lpFeature;
+      if (lpCampaign != null) _params['lp_campaign'] = lpCampaign;
+      if (lpStage != null) _params['lp_stage'] = lpStage;
+      if (lpControlParams != null)
+        _params['lp_control_params'] = lpControlParams;
 
-    _messageChannel.invokeMethod("generateLink", _params);
+      _messageChannel.invokeMethod("generateLink", _params);
   }
 
   static void listOnGoogleSearch(
@@ -51,34 +53,35 @@ class FlutterBranchIoPlugin {
         Map<String, dynamic> lpControlParams,
       }
     ) async {
-    Map<String, dynamic> _params = {};
-    String buoJson = buo.toJson();
-    _params['buoJson'] = buoJson;
-    if (lpChannel != null) _params['lp_channel'] = lpChannel;
-    if (lpFeature != null) _params['lp_feature'] = lpFeature;
-    if (lpCampaign != null) _params['lp_campaign'] = lpCampaign;
-    if (lpStage != null) _params['lp_stage'] = lpStage;
-    if (lpControlParams != null) _params['lp_control_params'] = lpControlParams;
+      Map<String, dynamic> _params = {};
+      String buoJson = buo.toJson();
+      _params['buoJson'] = buoJson;
+      if (lpChannel != null) _params['lp_channel'] = lpChannel;
+      if (lpFeature != null) _params['lp_feature'] = lpFeature;
+      if (lpCampaign != null) _params['lp_campaign'] = lpCampaign;
+      if (lpStage != null) _params['lp_stage'] = lpStage;
+      if (lpControlParams != null)
+        _params['lp_control_params'] = lpControlParams;
 
-    _messageChannel.invokeMethod("listOnGoogleSearch", _params);
+      _messageChannel.invokeMethod("listOnGoogleSearch", _params);
   }
 
   static void trackContent(
       FlutterBranchUniversalObject buo,
       String eventType
   ) {
-    Map<String, dynamic> _params = {};
-    String buoJson = buo.toJson();
-    _params['buoJson'] = buoJson;
-    _params['eventType'] = eventType;
+      Map<String, dynamic> _params = {};
+      String buoJson = buo.toJson();
+      _params['buoJson'] = buoJson;
+      _params['eventType'] = eventType;
 
-    _messageChannel.invokeMethod("trackContent", _params);
+      _messageChannel.invokeMethod("trackContent", _params);
   }
 
   static void setUserIdentity( String userId ) {
-    Map<String, dynamic> _params = {};
-    _params["userId"] = userId;
-    _messageChannel.invokeMethod("setUserIdentity", _params);
+      Map<String, dynamic> _params = {};
+      _params["userId"] = userId;
+      _messageChannel.invokeMethod("setUserIdentity", _params);
   }
 
   static void clearUserIdentity( String userId ) {
@@ -86,11 +89,11 @@ class FlutterBranchIoPlugin {
   }
 
   static Future<String> getLatestParam() async {
-    return await _messageChannel.invokeMethod('getLatestParam');
+      return await _messageChannel.invokeMethod('getLatestParam');
   }
 
   static Future<String> getFirstParam() async {
-    return await _messageChannel.invokeMethod('getFirstParam');
+      return await _messageChannel.invokeMethod('getFirstParam');
   }
 
   static Stream<String> listenToDeepLinkStream() {

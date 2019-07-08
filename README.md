@@ -1,7 +1,7 @@
 # flutter-branch-io
 Flutter plugin implemented Branch IO's SDK to Flutter.
 
-Currently only supported Android, still need to work on iOS's swift side.
+Supports both Android and iOS.
 
 Implemented function:
 - Initialization and get Deep Link data to a subscribe-able stream on dart.
@@ -11,12 +11,29 @@ Implemented function:
 - Track content & evnt
 - Track user by id
 
-# HOW TO USE
+## HOW TO USE iOS
+- For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction (https://github.com/blackmenthor/flutter-branch-io-ios-sample)
+- After your AppDelegate has been tweaked, you could use some of the functions below
+- Last, you need to call this code inside your application's initState
+    ```
+        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+        FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
+          print("DEEPLINK $string");
+          // PROCESS DEEPLINK HERE
+        });
+        if (Platform.isAndroid) {
+          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+            print("ONSTART");
+            FlutterBranchIoPlugin.setupBranchIO();
+          });
+        }
+    ```
+# HOW TO USE ANDROID
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
 - Change these setups in your `AndroidManifest.xml`
 
     - Open your MainActivity and import `com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity`
-    - Change the MainActivity class to extend FlutterBranchIOActivity
+    - Change the MainActivity class to extend FlutterAndroidLifecycleActivity
     - Add this inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
 
         ```
@@ -61,22 +78,21 @@ Implemented function:
 
     - Last, you need to call this code inside your application's initState
     ```
-        FlutterBranchIoPlugin.setupBranchIO();
+        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
           print("DEEPLINK $string");
-          setState(() {
-            this._data = string;
+          // PROCESS DEEPLINK HERE
+        });
+        if (Platform.isAndroid) {
+          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+            print("ONSTART");
+            FlutterBranchIoPlugin.setupBranchIO();
           });
-        });
-        FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-          print("ONSTART");
-          FlutterBranchIoPlugin.setupBranchIO();
-        });
+        }
     ```
 
 # Functions
-- To generate new deep link from flutter, you can use this
-
+- To generate new deep link from flutter, you can use this (Support both Android & iOS)
 First, you need to subscribe to the generated link stream, which will produce the generated link after you created a link from a branch universal object
 ```
 
@@ -89,7 +105,7 @@ First, you need to subscribe to the generated link stream, which will produce th
         });
 ```
 
-Then, you can start generate new links based on any Branch Universal Object you pass, and you can also add some Link Properties inside
+Then, you can start generate new links based on any Branch Universal Object you pass, and you can also add some Link Properties inside (support Android & iOS)
 ```
 
     FlutterBranchIoPlugin.generateLink(
@@ -110,7 +126,7 @@ Then, you can start generate new links based on any Branch Universal Object you 
         );
 ```
 
-- Track Content
+- Track Content (Support Both Android & iOS)
 to track content, you can create a new branch universal object and some event identifier (String)
 ```
     FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
@@ -122,19 +138,19 @@ to track content, you can create a new branch universal object and some event id
             .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC), FlutterBranchStandardEvent.VIEW_ITEM);
 ```
 
-- Set User ID
+- Set User ID (support both Android & iOS)
 to set user id for current session, you can use
 ```
     FlutterBranchIoPlugin.setUserIdentity(USER_ID)
 ```
 
-- Clear User ID
+- Clear User ID (support both Android & iOS)
 to clear user id for current session, you can use
 ```
     FlutterBranchIoPlugin.clearUserIdentity()
 ```
 
-- List Universal Object on Google Search
+- List Universal Object on Google Search (support Android only)
 to list an universal object on google search, you can use
 ```
     FlutterBranchIoPlugin.listOnGoogleSearch(
@@ -154,6 +170,26 @@ to list an universal object on google search, you can use
               }
             );
 ```
+
+# Version
+- 0.0.1
+    - Initial upload
+- 0.0.1+2
+    - Add Swift dependencies and version
+- 0.0.1+3
+    - Fix Branch data not received after user install
+- 0.0.1+4
+    - Fix method not implemented errors on iOS
+- 0.0.1+5
+    - Implement iOS swift side
+- 0.0.2
+    - add iml to gitignore & adjust to Branch's new SDK functions including:
+    remove arguments from isTestModeEnabled
+    change enableLogging to enableDebugMode because deprecated
+- 0.0.2+1
+    - Change README's obsolete instructions for Android
+- 0.0.2+2
+    - Upgrade Kotlin version to 1.3.21
 
 # Contributor
 - Angga Dwi Arifandi (angga.dwi@oval.id)

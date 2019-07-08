@@ -9,14 +9,14 @@ class FlutterBranchIOApp : FlutterApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        if (!BranchUtil.isTestModeEnabled(this)) {
+        if (!BranchUtil.isTestModeEnabled()) {
             Branch.getInstance(this)
         } else {
             Branch.getTestInstance(this)
         }
 
         // Branch logging for debugging
-        Branch.enableLogging()
+        Branch.enableDebugMode()
 
         // Branch object initialization
         Branch.getAutoInstance(this)
