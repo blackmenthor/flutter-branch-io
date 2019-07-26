@@ -73,6 +73,10 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
                 setUserID(call)
                 result.success("set User Identity success")
             }
+            call.method == "openUrl" -> {
+                openUrl(this.registrar, call)
+                result.success("open success")
+            }
             call.method == "clearUserIdentity" -> {
                 clearUserID()
                 result.success("clear User Identity Success")
