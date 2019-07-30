@@ -31,7 +31,7 @@ fun setUpBranchIo(registrar: PluginRegistry.Registrar, deepLinkStreamHandler: De
         Log.d(DEBUG_NAME, "BRANCH CALLBACK")
         if (error == null) {
             val params = referringParams?.toString()
-            val intent = Intent()
+            val intent = Intent(registrar.activity(), registrar.activity().javaClass)
             intent.putExtra(INTENT_EXTRA_DATA, params)
             deepLinkStreamHandler!!.handleIntent(registrar.activity(), intent)
         } else {

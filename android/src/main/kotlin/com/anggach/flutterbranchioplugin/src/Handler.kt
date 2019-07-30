@@ -1,6 +1,8 @@
 package com.anggach.flutterbranchioplugin.src
 
+import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import com.anggach.flutterbranchioplugin.FlutterBranchIoPlugin
 import io.branch.indexing.BranchUniversalObject
 import io.branch.referral.Branch
@@ -115,4 +117,21 @@ fun openUrl(registrar: PluginRegistry.Registrar, call: MethodCall){
 
 fun clearUserID() {
     Branch.getInstance().logout()
+}
+
+fun openUrl(activity: Activity, url: String, finishPreviousActivity: Boolean) {
+    if(activity == null) {
+        Log.e("BranchSDK", "Branch native Android SDK not initialized in openURL")
+        return
+    }
+
+    val intent  = Intent(activity, activity.javaClass)
+    intent.putExtra("branch", url)
+    intent.putExtra("branch_force_new_session", true)
+
+    if(finishPreviousActivity){
+        activity.finish()
+    }
+
+    activity.startActivity(intent)
 }

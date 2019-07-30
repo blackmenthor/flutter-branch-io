@@ -81,6 +81,13 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
                 clearUserID()
                 result.success("clear User Identity Success")
             }
+            call.method == "openUrl" -> {
+                val url = call.argument<String>("url")
+                val finishPreviousActivity = call.argument<Boolean>("finishPreviousActivity")
+
+                openUrl(this.registrar.activity(), url!!, finishPreviousActivity!!)
+                result.success("Open URL Success")
+            }
             else -> result.notImplemented()
         }
     }
