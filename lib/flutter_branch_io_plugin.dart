@@ -78,12 +78,6 @@ class FlutterBranchIoPlugin {
     _messageChannel.invokeMethod("setUserIdentity", _params);
   }
 
-  static void openUrl(String url) {
-    Map<String, dynamic> _params = {};
-    _params["url"] = url;
-    _messageChannel.invokeMethod("openUrl", _params);
-  }
-
   static void clearUserIdentity(String userId) {
     _messageChannel.invokeMethod("clearUserIdentity");
   }
