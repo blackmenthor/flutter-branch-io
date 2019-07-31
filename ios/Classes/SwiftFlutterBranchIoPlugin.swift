@@ -122,6 +122,13 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
     let firstParams = Branch.getInstance()?.getFirstReferringParams()
     result(firstParams)
   }
+    
+  private func openUrl(call: FlutterMethodCall, result: @escaping FlutterResult) {
+    let args = call.arguments as! [String:Any]
+    let url = args["url"]! as! String
+
+    Branch.getInstance()?.handleDeepLink(withNewSession: URL.init(string: url))
+  }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch (call.method) {
@@ -149,6 +156,9 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
         case "getFirstParam":
             getFirstParam(call: call
                 , result: result)
+            break
+        case "openUrl":
+            openUrl(call: call, result: result)
             break
         default:
             result("iOS " + UIDevice.current.systemVersion)

@@ -78,12 +78,6 @@ class FlutterBranchIoPlugin {
     _messageChannel.invokeMethod("setUserIdentity", _params);
   }
 
-  static void openUrl(String url) {
-    Map<String, dynamic> _params = {};
-    _params["url"] = url;
-    _messageChannel.invokeMethod("openUrl", _params);
-  }
-
   static void clearUserIdentity(String userId) {
     _messageChannel.invokeMethod("clearUserIdentity");
   }
@@ -107,5 +101,13 @@ class FlutterBranchIoPlugin {
       generatedLinkStream =
           _generatedLinkChannel.receiveBroadcastStream().cast<String>();
     return generatedLinkStream;
+  }
+
+  static void openUrl(String url, {bool finishPreviousActivity = true}) {
+    var params = <String, dynamic>{
+      "url": url,
+      "finishPreviousActivity": finishPreviousActivity,
+    };
+    _messageChannel.invokeMethod("openUrl", params);
   }
 }

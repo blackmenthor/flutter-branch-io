@@ -1,6 +1,8 @@
 package com.anggach.flutterbranchioplugin.src
 
+import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import com.anggach.flutterbranchioplugin.FlutterBranchIoPlugin
 import io.branch.indexing.BranchUniversalObject
 import io.branch.referral.Branch
@@ -97,22 +99,23 @@ fun setUserID(call: MethodCall) {
     Branch.getInstance().setIdentity(userId ?: "")
 }
 
-fun openUrl(registrar: PluginRegistry.Registrar, call: MethodCall){
-    if (registrar.activity() == null) {
-        // initSession is called before JS loads. This probably indicates failure to call initSession
-        // in an activity.
-//        Log.e(REACT_CLASS, "Branch native Android SDK not initialized in openURL");
-        return;
-    }
-    val url = call.argument<String>("url")
-    val intent = Intent()
-    intent.putExtra("branch", url)
-    intent.putExtra("branch_force_new_session", true)
-//    if (options.hasKey("newActivity") && options.getBoolean("newActivity")) registrar.activity().finish();
-    registrar.activity().startActivityForResult(intent, 0)
-//    sendGeneratedLink(url, registrar, url)
-}
-
 fun clearUserID() {
     Branch.getInstance().logout()
+}
+
+fun openUrl(activity: Activity, url: String, finishPreviousActivity: Boolean) {
+    if(activity == null) {
+        Log.e("BranchSDK", "Branch native Android SDK not initialized in openURL")
+        return
+    }
+
+    val intent  = Intent(activity, activity.javaClass)
+    intent.putExtra("branch", url)
+    intent.putExtra("branch_force_new_session", true)
+
+    if(finishPreviousActivity){
+        activity.finish()
+    }
+
+    activity.startActivity(intent)
 }
