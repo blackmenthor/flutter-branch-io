@@ -25,7 +25,7 @@ fun init(registrar: PluginRegistry.Registrar) {
     Branch.getAutoInstance(registrar.activity().applicationContext)
 }
 
-fun setUpBranchIo(registrar: PluginRegistry.Registrar, deepLinkStreamHandler: DeepLinkStreamHandler?) {
+fun initBranchIO(registrar: PluginRegistry.Registrar, deepLinkStreamHandler: DeepLinkStreamHandler?) {
     init(registrar)
     Branch.getInstance().initSession({ referringParams: JSONObject?, error: BranchError? ->
         Log.d(DEBUG_NAME, "BRANCH CALLBACK")
