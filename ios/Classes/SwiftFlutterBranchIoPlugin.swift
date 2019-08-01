@@ -3,26 +3,55 @@ import UIKit
 import Branch
 
 public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
-    
+    private var eventSink: FlutterEventSink?
     private var generatedLinkSink: FlutterEventSink?
     
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_branch_io/message", binaryMessenger: registrar.messenger())
     let generatedLinkChannel = FlutterEventChannel(name: "flutter_branch_io/generated_link", binaryMessenger: registrar.messenger())
     
+    guard let controller = UIApplication.shared.delegate!.window!!.rootViewController! as? FlutterViewController else {
+        fatalError("rootViewController cannot be casted to FlutterViewController")
+    }
+    
+    let eventChannel = FlutterEventChannel(name: "flutter_branch_io/event", binaryMessenger: controller)
+
     let instance = SwiftFlutterBranchIoPlugin()
     generatedLinkChannel.setStreamHandler(instance)
+    eventChannel.setStreamHandler(instance)
     registrar.addMethodCallDelegate(instance, channel: channel)
     
   }
     
+    private func initBranchIO(branchKey: String) {
+        Branch.setBranchKey(branchKey)
+        Branch.getInstance().initSession() { (params, error) in
+            // do stuff with deep link data (nav to page, display content, etc)
+            print(params as? [String: AnyObject] ?? {})
+            if (self.eventSink != nil) {
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: params!, options: .prettyPrinted)
+                    let jsonString = String(data: jsonData, encoding: String.Encoding.utf8)
+                    self.eventSink!(jsonString)
+                } catch {
+                    print("BRANCH IO FLUTTER IOS ERROR")
+                    print(error)
+                }
+            } else {
+                print("Branch IO eventSink is nil")
+            }
+        }
+    }
+    
   public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
       self.generatedLinkSink = events
+      self.eventSink = events
       return nil
   }
     
   public func onCancel(withArguments arguments: Any?) -> FlutterError? {
       self.generatedLinkSink = nil
+      self.eventSink = nil
       return nil
   }
     
@@ -65,16 +94,16 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
     
     let lp: BranchLinkProperties = BranchLinkProperties()
     if (lpChannel != nil) {
-        lp.channel = lpChannel as! String
+        lp.channel = lpChannel as? String
     }
     if (lpFeature != nil) {
-        lp.feature = lpFeature as! String
+        lp.feature = lpFeature as? String
     }
     if (lpCampaign != nil) {
-        lp.campaign = lpCampaign as! String
+        lp.campaign = lpCampaign as? String
     }
     if (lpStage != nil) {
-        lp.stage = lpStage as! String
+        lp.stage = lpStage as? String
     }
     if (lpParams != nil) {
         for param in lpParams!! {
@@ -123,15 +152,18 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
     result(firstParams)
   }
     
-  private func openUrl(call: FlutterMethodCall, result: @escaping FlutterResult) {
-    let args = call.arguments as! [String:Any]
-    let url = args["url"]! as! String
-
+  private func openUrl(url: String, result: @escaping FlutterResult) {
     Branch.getInstance()?.handleDeepLink(withNewSession: URL.init(string: url))
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+    let args = call.arguments as! [String:Any]
     switch (call.method) {
+        case "initBranchIO":
+            let branchKey = args["branchKey"]! as! String
+            initBranchIO(branchKey: branchKey)
+            break
+        
         case "generateLink":
             generateLink(call: call, result: result)
             break
@@ -142,24 +174,22 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
             trackContent(call: call, result: result)
             break
         case "setUserIdentity":
-            setUserIdentity(call: call
-                , result: result)
+            setUserIdentity(call: call, result: result)
             break
         case "clearUserIdentity":
-            clearUserIdentity(call: call
-                , result: result)
+            clearUserIdentity(call: call, result: result)
             break
         case "getLatestParam":
-            getLatestParam(call: call
-                , result: result)
+            getLatestParam(call: call, result: result)
             break
         case "getFirstParam":
-            getFirstParam(call: call
-                , result: result)
+            getFirstParam(call: call, result: result)
             break
         case "openUrl":
-            openUrl(call: call, result: result)
+            let url = args["url"]! as! String
+            openUrl(url: url, result: result)
             break
+        
         default:
             result("iOS " + UIDevice.current.systemVersion)
     }

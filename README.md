@@ -13,39 +13,19 @@ Implemented function:
 - Track content & evnt
 - Track user by id
 
-## HOW TO USE iOS
+## SETUP IOS APPLINKS
 
-- For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction [https://github.com/blackmenthor/flutter-branch-io-ios-sample](https://github.com/blackmenthor/flutter-branch-io-ios-sample)
-- After your AppDelegate has been tweaked, you could use some of the functions below
-- Last, you need to call this code inside your application's initState
+- [Configure associated domains via Xcode](https://docs.branch.io/apps/ios/#configure-associated-domains)
 
-    ```dart
-        if (Platform.isAndroid) FlutterBranchIoPlugin.initBranchIO();
-        FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
-          print("DEEPLINK $string");
-          // PROCESS DEEPLINK HERE
-        });
-        if (Platform.isAndroid) {
-          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-            print("ONSTART");
-            FlutterBranchIoPlugin.initBranchIO();
-          });
-        }
-    ```
+## SETUP ANDROID APPLINKS
 
-## HOW TO USE ANDROID
-
-- Import flutter_branch_io_plugin to your `pubspec.yaml`
 - Change these setups in your `AndroidManifest.xml`
-
-  - Open your MainActivity and import `com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity`
-  - Change the MainActivity class to extend FlutterAndroidLifecycleActivity
-  - Add this inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
+  - Add these inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
 
     ```xml
         <!-- Branch URI scheme -->
         <intent-filter>
-            <data android:scheme="YOURSCHEME" android:host="open"/>
+            <data android:scheme="<your custom scheme>" android:host="open"/>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
@@ -58,46 +38,32 @@ Implemented function:
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" android:host="YOURHOST.test-app.link" />
+            <data android:scheme="https" android:host="<your branch app host>.test-app.link" /><!-- Test Scheme -->
+            <data android:scheme="https" android:host="<your branch app host>-alternate.test-app.link" /> <!-- Test Scheme -->
+            <data android:scheme="https" android:host="<your branch app host>.app.link" /> <!-- Live Scheme -->
+            <data android:scheme="https" android:host="<your branch app host>-alternate.app.link" /> <!-- Live Scheme -->
         </intent-filter>
     ```
 
-    Where YOURSCHEME is the Deep Link Scheme you setup at Branch.io dashboard,
-     and YOURHOST is the Deep Link Host you setup at the dashboard
-    - And add this inside application, (right after `</activity>`)
-
-        ```xml
-            <!-- Branch init -->
-            <meta-data android:name="io.branch.sdk.BranchKey" android:value="YOURLIVEKEY" />
-            <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="YOURTESTKEY" />
-            <meta-data android:name="io.branch.sdk.TestMode" android:value="true" /> <!-- Set to true to use Branch_Test_Key -->
-        ```
-
-        ```xml
-            <!-- Branch install referrer tracking -->
-            <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
-                <intent-filter>
-                    <action android:name="com.android.vending.INSTALL_REFERRER" />
-                </intent-filter>
-            </receiver>
-        ```
-
-    Where YOURLIVEKEY is your Branch.io live key, and YOURTESTKEY is your Branch.io test key.
-
-    - Last, you need to call this code inside your application's initState
-
     ```xml
-        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+        <!-- Branch install referrer tracking -->
+        <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+    ```
+
+## SETUP FLUTTER
+
+- Import flutter_branch_io_plugin to your `pubspec.yaml`
+- You need to call this code inside your application's initState. You may pass test or live branch key as needed.
+
+    ```dart
+        FlutterBranchIoPlugin.initBranchIO('<your branch key here>');
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
-          print("DEEPLINK $string");
           // PROCESS DEEPLINK HERE
         });
-        if (Platform.isAndroid) {
-          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-            print("ONSTART");
-            FlutterBranchIoPlugin.setupBranchIO();
-          });
-        }
     ```
 
 ## Functions
