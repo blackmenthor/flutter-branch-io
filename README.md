@@ -13,11 +13,13 @@ Implemented function:
 - Track content & evnt
 - Track user by id
 
-## SETUP IOS APPLINKS
+## Setup
+
+### Setup iOS Applink
 
 - [Configure associated domains via Xcode](https://docs.branch.io/apps/ios/#configure-associated-domains)
 
-## SETUP ANDROID APPLINKS
+### Setup Android Applink
 
 - Change these setups in your `AndroidManifest.xml`
   - Add these inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
@@ -54,7 +56,7 @@ Implemented function:
         </receiver>
     ```
 
-## SETUP FLUTTER
+### Setup Flutter
 
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
 - You need to call this code inside your application's initState. You may pass test or live branch key as needed.
