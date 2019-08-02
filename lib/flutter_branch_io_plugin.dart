@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
@@ -19,8 +18,11 @@ class FlutterBranchIoPlugin {
   static Stream<String> mainStream;
   static Stream<String> generatedLinkStream;
 
-  static void setupBranchIO() {
-    if (Platform.isAndroid) _messageChannel.invokeMethod('initBranchIO');
+  static void initBranchIO(String branchKey) {
+    var param = <String, dynamic>{
+      'branchKey': branchKey,
+    };
+    _messageChannel.invokeMethod('initBranchIO', param);
   }
 
   static void generateLink(

@@ -40,7 +40,8 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "io.branch.sdk.android:library:3.+"
     implementation 'com.google.firebase:firebase-appindexing:17.1.0'
+    implementation 'com.android.installreferrer:installreferrer:1.0'
 }

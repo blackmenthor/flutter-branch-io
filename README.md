@@ -1,9 +1,11 @@
 # flutter-branch-io
+
 Flutter plugin implemented Branch IO's SDK to Flutter.
 
 Supports both Android and iOS.
 
 Implemented function:
+
 - Initialization and get Deep Link data to a subscribe-able stream on dart.
 - Create BUO and MetaData model
 - Generate new deeplink and get the link
@@ -11,90 +13,68 @@ Implemented function:
 - Track content & evnt
 - Track user by id
 
-## HOW TO USE iOS
-- For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction (https://github.com/blackmenthor/flutter-branch-io-ios-sample)
-- After your AppDelegate has been tweaked, you could use some of the functions below
-- Last, you need to call this code inside your application's initState
-    ```
-        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
-        FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
-          print("DEEPLINK $string");
-          // PROCESS DEEPLINK HERE
-        });
-        if (Platform.isAndroid) {
-          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-            print("ONSTART");
-            FlutterBranchIoPlugin.setupBranchIO();
-          });
-        }
-    ```
-# HOW TO USE ANDROID
-- Import flutter_branch_io_plugin to your `pubspec.yaml`
+## Setup
+
+### Setup iOS Applink
+
+- [Configure associated domains via Xcode](https://docs.branch.io/apps/ios/#configure-associated-domains)
+
+### Setup Android Applink
+
 - Change these setups in your `AndroidManifest.xml`
+  - Add these inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
 
-    - Open your MainActivity and import `com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity`
-    - Change the MainActivity class to extend FlutterAndroidLifecycleActivity
-    - Add this inside your AndroidManifest.xml (inside activity tag, after the Main and Launcher intent-filter)
-
-        ```
-            <!-- Branch URI scheme -->
-            <intent-filter>
-                <data android:scheme="YOURSCHEME" android:host="open"/>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        ```
-        
-        ```
-            <!-- Branch App Links -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="YOURHOST.test-app.link" />
-            </intent-filter>
-        ```
-
-    Where YOURSCHEME is the Deep Link Scheme you setup at Branch.io dashboard,
-     and YOURHOST is the Deep Link Host you setup at the dashboard
-    - And add this inside application, (right after </activity>)
-        ```
-            <!-- Branch init -->
-            <meta-data android:name="io.branch.sdk.BranchKey" android:value="YOURLIVEKEY" />
-            <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="YOURTESTKEY" />
-            <meta-data android:name="io.branch.sdk.TestMode" android:value="true" /> <!-- Set to true to use Branch_Test_Key -->
-        ```
-
-        ```
-            <!-- Branch install referrer tracking -->
-            <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
-                <intent-filter>
-                    <action android:name="com.android.vending.INSTALL_REFERRER" />
-                </intent-filter>
-            </receiver>
-        ```
-    Where YOURLIVEKEY is your Branch.io live key, and YOURTESTKEY is your Branch.io test key.
-
-    - Last, you need to call this code inside your application's initState
+    ```xml
+        <!-- Branch URI scheme -->
+        <intent-filter>
+            <data android:scheme="<your custom scheme>" android:host="open"/>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
     ```
-        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+
+    ```xml
+        <!-- Branch App Links -->
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="<your branch app host>.test-app.link" /><!-- Test Scheme -->
+            <data android:scheme="https" android:host="<your branch app host>-alternate.test-app.link" /> <!-- Test Scheme -->
+            <data android:scheme="https" android:host="<your branch app host>.app.link" /> <!-- Live Scheme -->
+            <data android:scheme="https" android:host="<your branch app host>-alternate.app.link" /> <!-- Live Scheme -->
+        </intent-filter>
+    ```
+
+    ```xml
+        <!-- Branch install referrer tracking -->
+        <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+    ```
+
+### Setup Flutter
+
+- Import flutter_branch_io_plugin to your `pubspec.yaml`
+- You need to call this code inside your application's initState. You may pass test or live branch key as needed.
+
+    ```dart
+        FlutterBranchIoPlugin.initBranchIO('<your branch key here>');
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
-          print("DEEPLINK $string");
           // PROCESS DEEPLINK HERE
         });
-        if (Platform.isAndroid) {
-          FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-            print("ONSTART");
-            FlutterBranchIoPlugin.setupBranchIO();
-          });
-        }
     ```
 
-# Functions
+## Functions
+
 - To generate new deep link from flutter, you can use this (Support both Android & iOS)
+
 First, you need to subscribe to the generated link stream, which will produce the generated link after you created a link from a branch universal object
-```
+
+```dart
 
     FlutterBranchIoPlugin.listenToGeneratedLinkStream().listen((link) {
           print("GET LINK IN FLUTTER");
@@ -106,7 +86,8 @@ First, you need to subscribe to the generated link stream, which will produce th
 ```
 
 Then, you can start generate new links based on any Branch Universal Object you pass, and you can also add some Link Properties inside (support Android & iOS)
-```
+
+```dart
 
     FlutterBranchIoPlugin.generateLink(
           FlutterBranchUniversalObject()
@@ -127,8 +108,10 @@ Then, you can start generate new links based on any Branch Universal Object you 
 ```
 
 - Track Content (Support Both Android & iOS)
-to track content, you can create a new branch universal object and some event identifier (String)
-```
+
+To track content, you can create a new branch universal object and some event identifier (String)
+
+```dart
     FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
             .setCanonicalIdentifier("content/12345")
             .setTitle("My Content Title")
@@ -139,20 +122,26 @@ to track content, you can create a new branch universal object and some event id
 ```
 
 - Set User ID (support both Android & iOS)
-to set user id for current session, you can use
-```
+
+To set user id for current session, you can use
+
+```dart
     FlutterBranchIoPlugin.setUserIdentity(USER_ID)
 ```
 
 - Clear User ID (support both Android & iOS)
-to clear user id for current session, you can use
-```
+
+To clear user id for current session, you can use
+
+```dart
     FlutterBranchIoPlugin.clearUserIdentity()
 ```
 
 - List Universal Object on Google Search (support Android only)
-to list an universal object on google search, you can use
-```
+
+To list an universal object on google search, you can use
+
+```dart
     FlutterBranchIoPlugin.listOnGoogleSearch(
               FlutterBranchUniversalObject()
                   .setCanonicalIdentifier("content/12345")
@@ -171,26 +160,28 @@ to list an universal object on google search, you can use
             );
 ```
 
-# Version
-- 0.0.1
-    - Initial upload
-- 0.0.1+2
-    - Add Swift dependencies and version
-- 0.0.1+3
-    - Fix Branch data not received after user install
-- 0.0.1+4
-    - Fix method not implemented errors on iOS
-- 0.0.1+5
-    - Implement iOS swift side
-- 0.0.2
-    - add iml to gitignore & adjust to Branch's new SDK functions including:
-    remove arguments from isTestModeEnabled
-    change enableLogging to enableDebugMode because deprecated
-- 0.0.2+1
-    - Change README's obsolete instructions for Android
-- 0.0.2+2
-    - Upgrade Kotlin version to 1.3.21
+## Version
 
-# Contributor
+- 0.0.1
+  - Initial upload
+- 0.0.1+2
+  - Add Swift dependencies and version
+- 0.0.1+3
+  - Fix Branch data not received after user install
+- 0.0.1+4
+  - Fix method not implemented errors on iOS
+- 0.0.1+5
+  - Implement iOS swift side
+- 0.0.2
+  - add iml to gitignore & adjust to Branch's new SDK functions including:
+    - remove arguments from isTestModeEnabled
+    - change enableLogging to enableDebugMode because deprecated
+- 0.0.2+1
+  - Change README's obsolete instructions for Android
+- 0.0.2+2
+  - Upgrade Kotlin version to 1.3.21
+
+## Contributor
+
 - Angga Dwi Arifandi (angga.dwi@oval.id)
 - Abdul Ghapur (gofur@oval.id)

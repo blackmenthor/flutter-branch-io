@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -18,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+    if (Platform.isAndroid) FlutterBranchIoPlugin.initBranchIO();
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
       print("DEEPLINK $string");
       setState(() {
@@ -28,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     if (Platform.isAndroid) {
       FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
         print("ONSTART");
-        FlutterBranchIoPlugin.setupBranchIO();
+        FlutterBranchIoPlugin.initBranchIO();
       });
     }
 
