@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:io';
 
-import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 
 void main() => runApp(MyApp());
@@ -18,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+    if (Platform.isAndroid) FlutterBranchIoPlugin.initBranchIO();
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
       print("DEEPLINK $string");
       setState(() {
@@ -28,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     if (Platform.isAndroid) {
       FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
         print("ONSTART");
-        FlutterBranchIoPlugin.setupBranchIO();
+        FlutterBranchIoPlugin.initBranchIO();
       });
     }
 
@@ -41,29 +40,28 @@ class _MyAppState extends State<MyApp> {
     });
 
     FlutterBranchIoPlugin.generateLink(
-      FlutterBranchUniversalObject()
-          .setCanonicalIdentifier("content/12345")
-          .setTitle("My Content Title")
-          .setContentDescription("My Content Description")
-          .setContentImageUrl("https://lorempixel.com/400/400")
-          .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
-          .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
-      lpChannel: "facebook",
-      lpFeature: "sharing",
-      lpCampaign: "content 123 launch",
-      lpStage: "new user",
-      lpControlParams: {
-        "url": "http://www.google.com"
-      }
-    );
+        FlutterBranchUniversalObject()
+            .setCanonicalIdentifier("content/12345")
+            .setTitle("My Content Title")
+            .setContentDescription("My Content Description")
+            .setContentImageUrl("https://lorempixel.com/400/400")
+            .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+            .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
+        lpChannel: "facebook",
+        lpFeature: "sharing",
+        lpCampaign: "content 123 launch",
+        lpStage: "new user",
+        lpControlParams: {"url": "http://www.google.com"});
 
-    FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
-        .setCanonicalIdentifier("content/12345")
-        .setTitle("My Content Title")
-        .setContentDescription("My Content Description")
-        .setContentImageUrl("https://lorempixel.com/400/400")
-        .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
-        .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC), FlutterBranchStandardEvent.VIEW_ITEM);
+    FlutterBranchIoPlugin.trackContent(
+        FlutterBranchUniversalObject()
+            .setCanonicalIdentifier("content/12345")
+            .setTitle("My Content Title")
+            .setContentDescription("My Content Description")
+            .setContentImageUrl("https://lorempixel.com/400/400")
+            .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+            .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
+        FlutterBranchStandardEvent.VIEW_ITEM);
   }
 
   @override
@@ -83,16 +81,20 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                      "LATEST DATA BRANCH $_data"
-                  ),
+                  child: Text("LATEST DATA BRANCH $_data"),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                      "GENERATED LINK $generatedLink"
-                  ),
+                  child: Text("GENERATED LINK $generatedLink"),
                 ),
+                FlatButton(
+                    color: Colors.indigo,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      FlutterBranchIoPlugin.openUrl(
+                          'https://myvalue.app.link/asGXvxVqDY');
+                    },
+                    child: Text('Open Url'))
               ],
             ),
           );

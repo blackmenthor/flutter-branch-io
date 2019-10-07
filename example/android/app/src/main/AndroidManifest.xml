@@ -17,7 +17,7 @@
         android:label="flutter_branch_io_plugin_example"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name="com.anggach.flutterbranchiopluginexample.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
@@ -37,7 +37,8 @@
 
             <!-- Branch URI scheme -->
             <intent-filter>
-                <data android:scheme="YOURSCHEME" android:host="open"/>
+                <!--<data android:scheme="YOURSCHEME" android:host="open"/>-->
+                <data android:scheme="MYVALUEAPPS" android:host="open"/>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -48,13 +49,19 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="YOURHOST.test-app.link" />
+                <!--<data android:scheme="https" android:host="YOURHOST.test-app.link" />-->
+                <data android:scheme="https" android:host="myvalue.test-app.link" /> <!-- Test Scheme -->
+                <data android:scheme="https" android:host="myvalue-alternate.test-app.link" /> <!-- Test Scheme -->
+                <data android:scheme="https" android:host="myvalue.app.link" /> <!-- Live Scheme -->
+                <data android:scheme="https" android:host="myvalue-alternate.app.link" /> <!-- Live Scheme -->
             </intent-filter>
         </activity>
 
         <!-- Branch init -->
-        <meta-data android:name="io.branch.sdk.BranchKey" android:value="YOURLIVEKEY" />
-        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="YOURTESTKEY" />
+        <!--<meta-data android:name="io.branch.sdk.BranchKey" android:value="YOURLIVEKEY" />-->
+        <!--<meta-data android:name="io.branch.sdk.BranchKey.test" android:value="YOURTESTKEY" />-->
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_gmMbs5eZrigONKBBO2NjAfgcxyoBQPaM" />
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_hfRcr4fXwdcKHSsqH3MjtienutfAVMh1" />
         <meta-data android:name="io.branch.sdk.TestMode" android:value="true" /> <!-- Set to true to use Branch_Test_Key -->
 
         <!-- Branch install referrer tracking -->

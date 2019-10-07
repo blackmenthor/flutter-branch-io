@@ -46,8 +46,10 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
     override fun onMethodCall(call: MethodCall, result: Result) {
         when {
             call.method == "initBranchIO" -> {
+                val branchKey = call.argument<String>("branchKey")
+
+                initBranchIO(branchKey!!, registrar, deepLinkStreamHandler)
                 result.success("INITIALIZING BRANCH IO")
-                setUpBranchIo(registrar, deepLinkStreamHandler)
             }
             call.method == "generateLink" -> {
                 generateLinkHandler(this.registrar, generatedLinkStreamHandler, call)
@@ -76,6 +78,13 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
             call.method == "clearUserIdentity" -> {
                 clearUserID()
                 result.success("clear User Identity Success")
+            }
+            call.method == "openUrl" -> {
+                val url = call.argument<String>("url")
+                val finishPreviousActivity = call.argument<Boolean>("finishPreviousActivity")
+
+                openUrl(this.registrar.activity(), url!!, finishPreviousActivity!!)
+                result.success("Open URL Success")
             }
             else -> result.notImplemented()
         }

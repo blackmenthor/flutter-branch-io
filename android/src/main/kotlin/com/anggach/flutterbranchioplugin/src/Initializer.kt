@@ -25,13 +25,13 @@ fun init(registrar: PluginRegistry.Registrar) {
     Branch.getAutoInstance(registrar.activity().applicationContext)
 }
 
-fun setUpBranchIo(registrar: PluginRegistry.Registrar, deepLinkStreamHandler: DeepLinkStreamHandler?) {
+fun initBranchIO(branchKey: String, registrar: PluginRegistry.Registrar, deepLinkStreamHandler: DeepLinkStreamHandler?) {
     init(registrar)
-    Branch.getInstance().initSession({ referringParams: JSONObject?, error: BranchError? ->
+    Branch.getInstance(registrar.activity(), branchKey).initSession({ referringParams: JSONObject?, error: BranchError? ->
         Log.d(DEBUG_NAME, "BRANCH CALLBACK")
         if (error == null) {
             val params = referringParams?.toString()
-            val intent = Intent()
+            val intent = Intent(registrar.activity(), registrar.activity().javaClass)
             intent.putExtra(INTENT_EXTRA_DATA, params)
             deepLinkStreamHandler!!.handleIntent(registrar.activity(), intent)
         } else {
