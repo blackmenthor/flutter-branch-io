@@ -10,6 +10,7 @@ Implemented function:
 - List BUO on google search
 - Track content & evnt
 - Track user by id
+- Androidx support
 
 ## HOW TO USE iOS
 - For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction (https://github.com/blackmenthor/flutter-branch-io-ios-sample)
