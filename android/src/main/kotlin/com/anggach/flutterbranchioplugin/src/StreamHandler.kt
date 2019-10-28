@@ -54,7 +54,7 @@ class DeepLinkStreamHandler: EventChannel.StreamHandler {
     }
 
     override fun onListen(p0: Any?, events: EventChannel.EventSink?) {
-        Log.d(DEBUG_NAME, "ON LIstEN")
+        Log.d(DEBUG_NAME, "ON LISTEN")
         receiver = createReceiver(events)
     }
 

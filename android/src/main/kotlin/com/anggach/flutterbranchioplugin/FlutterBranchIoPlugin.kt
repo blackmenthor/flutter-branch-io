@@ -46,8 +46,7 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
     override fun onMethodCall(call: MethodCall, result: Result) {
         when {
             call.method == "initBranchIO" -> {
-                result.success("INITIALIZING BRANCH IO")
-                setUpBranchIo(registrar, deepLinkStreamHandler)
+                setUpBranchIo(registrar, deepLinkStreamHandler, result)
             }
             call.method == "generateLink" -> {
                 generateLinkHandler(this.registrar, generatedLinkStreamHandler, call)
