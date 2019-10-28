@@ -14,11 +14,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _data = '-';
   String generatedLink = '-';
+  String error = '-';
 
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+
+    try {
+      setUpBranch();
+    } catch (error) {
+      setState(() {
+        this.error = error.toString();
+      });
+      print("BRANCH ERROR ${error.toString()}");
+    }
+  }
+
+  void setUpBranch() {
+    if (Platform.isAndroid) {
+      FlutterBranchIoPlugin.setupBranchIO();
+    }
+
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
       print("DEEPLINK $string");
       setState(() {
@@ -41,20 +57,20 @@ class _MyAppState extends State<MyApp> {
     });
 
     FlutterBranchIoPlugin.generateLink(
-      FlutterBranchUniversalObject()
-          .setCanonicalIdentifier("content/12345")
-          .setTitle("My Content Title")
-          .setContentDescription("My Content Description")
-          .setContentImageUrl("https://lorempixel.com/400/400")
-          .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
-          .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
-      lpChannel: "facebook",
-      lpFeature: "sharing",
-      lpCampaign: "content 123 launch",
-      lpStage: "new user",
-      lpControlParams: {
-        "url": "http://www.google.com"
-      }
+        FlutterBranchUniversalObject()
+            .setCanonicalIdentifier("content/12345")
+            .setTitle("My Content Title")
+            .setContentDescription("My Content Description")
+            .setContentImageUrl("https://lorempixel.com/400/400")
+            .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+            .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
+        lpChannel: "facebook",
+        lpFeature: "sharing",
+        lpCampaign: "content 123 launch",
+        lpStage: "new user",
+        lpControlParams: {
+          "url": "http://www.google.com"
+        }
     );
 
     FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
@@ -93,6 +109,12 @@ class _MyAppState extends State<MyApp> {
                       "GENERATED LINK $generatedLink"
                   ),
                 ),
+                error.isEmpty ? Container() : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                      "ERROR: $error"
+                  ),
+                )
               ],
             ),
           );

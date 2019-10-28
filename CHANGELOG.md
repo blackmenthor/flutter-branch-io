@@ -18,3 +18,6 @@
     
 ## 0.0.2+2
     - Upgrade Kotlin version to 1.3.21
+    
+# 0.0.3
+    - Notify on Android if branch io can't be initialized

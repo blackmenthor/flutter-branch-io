@@ -16,7 +16,7 @@ Implemented function:
 - After your AppDelegate has been tweaked, you could use some of the functions below
 - Last, you need to call this code inside your application's initState
     ```
-        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO(); // will throw an exception if it fails
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
           print("DEEPLINK $string");
           // PROCESS DEEPLINK HERE
@@ -78,7 +78,7 @@ Implemented function:
 
     - Last, you need to call this code inside your application's initState
     ```
-        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+        if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();  // will throw an exception if it fails
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
           print("DEEPLINK $string");
           // PROCESS DEEPLINK HERE
@@ -190,7 +190,9 @@ to list an universal object on google search, you can use
     - Change README's obsolete instructions for Android
 - 0.0.2+2
     - Upgrade Kotlin version to 1.3.21
+- 0.0.3
+    - Notify on Android if branch io can't be initialized
 
 # Contributor
-- Angga Dwi Arifandi (angga.dwi@oval.id)
+- Angga Dwi Arifandi (anggadwiarifandi96@gmail.com)
 - Abdul Ghapur (gofur@oval.id)
