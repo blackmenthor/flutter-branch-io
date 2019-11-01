@@ -167,6 +167,7 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
                 print("Branch IO eventSink is nil")
             }
         }
+        return true
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
