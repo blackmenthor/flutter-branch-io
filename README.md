@@ -190,7 +190,10 @@ to list an universal object on google search, you can use
     - Upgrade Kotlin version to 1.3.21
 - 0.0.3
     - Notify on Android if branch io can't be initialized
+- 1.0.0
+    - Implement iOS scheme so we don't need to edit the `AppDelegate` file directly
 
 # Contributor
 - Angga Dwi Arifandi (anggadwiarifandi96@gmail.com)
 - Abdul Ghapur (gofur@oval.id)
+- Amond (amond@amond.net)
