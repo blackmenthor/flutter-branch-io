@@ -150,9 +150,6 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
         _: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        guard let controller = window?.rootViewController as? FlutterViewController else {
-            fatalError("rootViewController cannot be casted to FlutterViewController")
-        }
         Branch.getInstance()?.initSession(launchOptions: launchOptions) { params, error in
             // do stuff with deep link data (nav to page, display content, etc)
             print(params as? [String: AnyObject] ?? {})
@@ -173,8 +170,8 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
     }
 
     override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        Branch.getInstance()?.application(app, open: url, options: options)
-        return true
+        let branchHandled = Branch.getInstance()?.application(app, open: url, options: options) ?? false
+        return branchHandled
     }
 
     override func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -184,7 +181,7 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
 
     override func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         // handler for Universal Links
-        Branch.getInstance()?.continue(userActivity)
-        return true
+        let handledByBranch = Branch.getInstance()?.continue(userActivity) ?? false
+        return handledByBranch
     }
 }
