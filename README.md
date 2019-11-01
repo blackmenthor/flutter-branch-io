@@ -12,9 +12,7 @@ Implemented function:
 - Track user by id
 
 ## HOW TO USE iOS
-- For iOS, you need to tweak your original Flutter's AppDelegate. Just follow this repository for further instruction (https://github.com/blackmenthor/flutter-branch-io-ios-sample)
-- After your AppDelegate has been tweaked, you could use some of the functions below
-- Last, you need to call this code inside your application's initState
+- You need to call this code inside your application's initState
     ```
         if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO(); // will throw an exception if it fails
         FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
@@ -192,7 +190,10 @@ to list an universal object on google search, you can use
     - Upgrade Kotlin version to 1.3.21
 - 0.0.3
     - Notify on Android if branch io can't be initialized
+- 1.0.0
+    - Implement iOS scheme so we don't need to edit the `AppDelegate` file directly
 
 # Contributor
 - Angga Dwi Arifandi (anggadwiarifandi96@gmail.com)
 - Abdul Ghapur (gofur@oval.id)
+- Amond (amond@amond.net)

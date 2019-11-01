@@ -21,3 +21,6 @@
     
 # 0.0.3
     - Notify on Android if branch io can't be initialized
+    
+# 1.0.0
+    - Implement iOS scheme so we don't need to edit the `AppDelegate` file directly
