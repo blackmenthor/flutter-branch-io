@@ -146,8 +146,7 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
         }
     }
 
-    func application(
-        _: UIApplication,
+    public func application(
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         Branch.getInstance()?.initSession(launchOptions: launchOptions) { params, error in
@@ -170,17 +169,17 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
         return true
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         let branchHandled = Branch.getInstance()?.application(app, open: url, options: options) ?? false
         return branchHandled
     }
 
-    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {
+    public func application(didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {
         // handler for Push Notifications
         Branch.getInstance()?.handlePushNotification(userInfo)
     }
 
-    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    public func application(continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         // handler for Universal Links
         let handledByBranch = Branch.getInstance()?.continue(userActivity) ?? false
         return handledByBranch
