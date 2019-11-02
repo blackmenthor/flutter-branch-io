@@ -2,27 +2,23 @@ import Branch
 import Flutter
 import UIKit
 
-public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
-    private var generatedLinkSink: FlutterEventSink?
+public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin {
+    static var eventHandler: EventStreamHandler?
+    static var generatedLinkHandler: EventStreamHandler?
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "flutter_branch_io/message", binaryMessenger: registrar.messenger())
-        let generatedLinkChannel = FlutterEventChannel(name: "flutter_branch_io/generated_link", binaryMessenger: registrar.messenger())
-
         let instance = SwiftFlutterBranchIoPlugin()
-        generatedLinkChannel.setStreamHandler(instance)
+        let channel = FlutterMethodChannel(name: "flutter_branch_io/message", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
-    }
 
-    public func onListen(withArguments _: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        generatedLinkSink = events
-        return nil
-    }
+        let generatedLinkChannel = FlutterEventChannel(name: "flutter_branch_io/generated_link", binaryMessenger: registrar.messenger())
+        generatedLinkHandler = EventStreamHandler()
+        generatedLinkChannel.setStreamHandler(generatedLinkHandler)
 
-    public func onCancel(withArguments _: Any?) -> FlutterError? {
-        generatedLinkSink = nil
-        return nil
+        let eventChannel = FlutterEventChannel(name: "flutter_branch_io/event", binaryMessenger: registrar.messenger())
+        eventHandler = EventStreamHandler()
+        eventChannel.setStreamHandler(eventHandler)
     }
 
     func convertToDictionary(text: String) -> [String: Any]? {
@@ -44,8 +40,8 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
     }
 
     private func sendUrlToSink(url: String) {
-        if generatedLinkSink != nil {
-            generatedLinkSink!(url)
+        if SwiftFlutterBranchIoPlugin.generatedLinkHandler?.eventSink != nil {
+            SwiftFlutterBranchIoPlugin.generatedLinkHandler!.eventSink!(url)
         } else {
             print("Generated Link Sink is nil")
         }
@@ -146,18 +142,17 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
         }
     }
 
-    public func application(
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    override public func application(
+        _ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]
     ) -> Bool {
         Branch.getInstance()?.initSession(launchOptions: launchOptions) { params, error in
             // do stuff with deep link data (nav to page, display content, etc)
             print(params as? [String: AnyObject] ?? {})
-            if self.generatedLinkSink != nil {
+            if SwiftFlutterBranchIoPlugin.eventHandler?.eventSink != nil {
                 do {
                     let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
                     let jsonString = String(data: jsonData, encoding: String.Encoding.utf8)
-                    self.generatedLinkSink!(jsonString)
-
+                    SwiftFlutterBranchIoPlugin.eventHandler?.eventSink!(jsonString)
                 } catch {
                     print("BRANCH IO FLUTTER IOS ERROR")
                     print(error)
@@ -166,20 +161,21 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
                 print("Branch IO eventSink is nil")
             }
         }
-        return true
+        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
-    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+
+    override public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         let branchHandled = Branch.getInstance()?.application(app, open: url, options: options) ?? false
         return branchHandled
     }
 
-    public func application(didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {
+    @nonobjc override public func application(_ app: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {
         // handler for Push Notifications
         Branch.getInstance()?.handlePushNotification(userInfo)
     }
 
-    public func application(continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    public func application(_ app: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         // handler for Universal Links
         let handledByBranch = Branch.getInstance()?.continue(userActivity) ?? false
         return handledByBranch
