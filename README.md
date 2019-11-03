@@ -11,7 +11,7 @@ Implemented function:
 - Track content & evnt
 - Track user by id
 
-## HOW TO USE iOS
+## HOW TO USE on iOS
 - You need to call this code inside your application's initState
     ```
         if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO(); // will throw an exception if it fails
@@ -26,7 +26,7 @@ Implemented function:
           });
         }
     ```
-# HOW TO USE ANDROID
+# HOW TO USE on Android
 - Import flutter_branch_io_plugin to your `pubspec.yaml`
 - Change these setups in your `AndroidManifest.xml`
 
@@ -192,6 +192,9 @@ to list an universal object on google search, you can use
     - Notify on Android if branch io can't be initialized
 - 1.0.0
     - Implement iOS scheme so we don't need to edit the `AppDelegate` file directly
+- 1.0.1
+    - Fix errors in v1.0.0
+    - Update `flutter_android_lifecycle` to v1.0.0
 
 # Contributor
 - Angga Dwi Arifandi (anggadwiarifandi96@gmail.com)

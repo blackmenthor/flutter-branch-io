@@ -24,3 +24,7 @@
     
 # 1.0.0
     - Implement iOS scheme so we don't need to edit the `AppDelegate` file directly
+
+# 1.0.1
+    - Fix errors in v1.0.0
+    - Update `flutter_android_lifecycle` to v1.0.0
