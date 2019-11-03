@@ -3,12 +3,10 @@ import Flutter
 import Branch
 
 @UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate, FlutterStreamHandler {
-    private var eventSink: FlutterEventSink?
-    
+@objc class AppDelegate: FlutterAppDelegate {
     override func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
         ) -> Bool {
         // if you are using the TEST key
         // WARNING: DELETE THIS LINE FOR PRODUCTION USE
