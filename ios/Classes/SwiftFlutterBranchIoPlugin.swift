@@ -100,20 +100,20 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
     private func setUserIdentity(call: FlutterMethodCall, result _: @escaping FlutterResult) {
         let args = call.arguments as? [String: Any?]
         let userId = args?["userId"] as! String?
-        Branch.getInstance()?.setIdentity(userId)
+        Branch.getInstance().setIdentity(userId)
     }
 
     private func clearUserIdentity(call _: FlutterMethodCall, result _: @escaping FlutterResult) {
-        Branch.getInstance()?.logout()
+        Branch.getInstance().logout()
     }
 
     private func getLatestParam(call _: FlutterMethodCall, result: @escaping FlutterResult) {
-        let latestParams = Branch.getInstance()?.getLatestReferringParams()
+        let latestParams = Branch.getInstance().getLatestReferringParams()
         result(latestParams)
     }
 
     private func getFirstParam(call _: FlutterMethodCall, result: @escaping FlutterResult) {
-        let firstParams = Branch.getInstance()?.getFirstReferringParams()
+        let firstParams = Branch.getInstance().getFirstReferringParams()
         result(firstParams)
     }
 
