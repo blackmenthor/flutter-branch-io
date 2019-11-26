@@ -145,7 +145,7 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
     override public func application(
         _ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]
     ) -> Bool {
-        Branch.getInstance()?.initSession(launchOptions: launchOptions) { params, error in
+        Branch.getInstance().initSession(launchOptions: launchOptions) { params, error in
             // do stuff with deep link data (nav to page, display content, etc)
             print(params as? [String: AnyObject] ?? {})
             if SwiftFlutterBranchIoPlugin.eventHandler?.eventSink != nil {
@@ -166,18 +166,18 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
 
 
     override public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        let branchHandled = Branch.getInstance()?.application(app, open: url, options: options) ?? false
+        let branchHandled = Branch.getInstance().application(app, open: url, options: options) ?? false
         return branchHandled
     }
 
     @nonobjc override public func application(_ app: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {
         // handler for Push Notifications
-        Branch.getInstance()?.handlePushNotification(userInfo)
+        Branch.getInstance().handlePushNotification(userInfo)
     }
 
     public func application(_ app: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         // handler for Universal Links
-        let handledByBranch = Branch.getInstance()?.continue(userActivity) ?? false
+        let handledByBranch = Branch.getInstance().continue(userActivity) ?? false
         return handledByBranch
     }
 }
