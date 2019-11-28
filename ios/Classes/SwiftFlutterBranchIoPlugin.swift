@@ -14,7 +14,7 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
         fatalError("rootViewController cannot be casted to FlutterViewController")
     }
     
-    let eventChannel = FlutterEventChannel(name: "flutter_branch_io/event", binaryMessenger: controller.binaryMessenger)
+    let eventChannel = FlutterEventChannel(name: "flutter_branch_io/event", binaryMessenger: binaryMessenger)
 
     let instance = SwiftFlutterBranchIoPlugin()
     generatedLinkChannel.setStreamHandler(instance)
