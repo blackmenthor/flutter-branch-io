@@ -130,25 +130,25 @@ public class SwiftFlutterBranchIoPlugin: NSObject, FlutterPlugin, FlutterStreamH
   }
     
   private func setUserIdentity(userId:String) {
-    Branch.getInstance()?.setIdentity(userId)
+    Branch.getInstance().setIdentity(userId)
   }
     
   private func clearUserIdentity() {
-    Branch.getInstance()?.logout()
+    Branch.getInstance().logout()
   }
     
   private func getLatestParam(result: @escaping FlutterResult) {
-    let latestParams = Branch.getInstance()?.getLatestReferringParams()
+    let latestParams = Branch.getInstance().getLatestReferringParams()
     result(latestParams)
   }
     
   private func getFirstParam(result: @escaping FlutterResult) {
-    let firstParams = Branch.getInstance()?.getFirstReferringParams()
+    let firstParams = Branch.getInstance().getFirstReferringParams()
     result(firstParams)
   }
     
   private func openUrl(url: String, result: @escaping FlutterResult) {
-    Branch.getInstance()?.handleDeepLink(withNewSession: URL.init(string: url))
+    Branch.getInstance().handleDeepLink(withNewSession: URL.init(string: url))
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
